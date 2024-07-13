@@ -15,6 +15,9 @@ import {
   Tweet as PrismaTweet,
   Like as PrismaLike,
 } from "@prisma/client";
+import { TweetWhereUniqueInput } from "./TweetWhereUniqueInput";
+import { Tweet } from "./Tweet";
+import { TweetWhereInput } from "./TweetWhereInput";
 
 export class TweetServiceBase {
   constructor(protected readonly prisma: PrismaService) {}
@@ -48,5 +51,14 @@ export class TweetServiceBase {
         where: { id: parentId },
       })
       .likes(args);
+  }
+  async DeleteTweetById(args: TweetWhereUniqueInput): Promise<Tweet> {
+    throw new Error("Not implemented");
+  }
+  async GetRecentTweets(args: TweetWhereInput[]): Promise<Tweet[]> {
+    throw new Error("Not implemented");
+  }
+  async GetTweetsByUser(args: TweetWhereInput): Promise<Tweet[]> {
+    throw new Error("Not implemented");
   }
 }

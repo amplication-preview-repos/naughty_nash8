@@ -22,6 +22,8 @@ import { UpdateTweetArgs } from "./UpdateTweetArgs";
 import { DeleteTweetArgs } from "./DeleteTweetArgs";
 import { LikeFindManyArgs } from "../../like/base/LikeFindManyArgs";
 import { Like } from "../../like/base/Like";
+import { TweetWhereUniqueInput } from "./TweetWhereUniqueInput";
+import { TweetWhereInput } from "./TweetWhereInput";
 import { TweetService } from "../tweet.service";
 @graphql.Resolver(() => Tweet)
 export class TweetResolverBase {
@@ -107,5 +109,29 @@ export class TweetResolverBase {
     }
 
     return results;
+  }
+
+  @graphql.Mutation(() => Tweet)
+  async DeleteTweetById(
+    @graphql.Args()
+    args: TweetWhereUniqueInput
+  ): Promise<Tweet> {
+    return this.service.DeleteTweetById(args);
+  }
+
+  @graphql.Query(() => [Tweet])
+  async GetRecentTweets(
+    @graphql.Args()
+    args: TweetWhereInput[]
+  ): Promise<Tweet[]> {
+    return this.service.GetRecentTweets(args);
+  }
+
+  @graphql.Query(() => [Tweet])
+  async GetTweetsByUser(
+    @graphql.Args()
+    args: TweetWhereInput
+  ): Promise<Tweet[]> {
+    return this.service.GetTweetsByUser(args);
   }
 }

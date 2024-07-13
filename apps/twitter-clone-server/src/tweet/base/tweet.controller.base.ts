@@ -25,6 +25,7 @@ import { TweetUpdateInput } from "./TweetUpdateInput";
 import { LikeFindManyArgs } from "../../like/base/LikeFindManyArgs";
 import { Like } from "../../like/base/Like";
 import { LikeWhereUniqueInput } from "../../like/base/LikeWhereUniqueInput";
+import { TweetWhereInput } from "./TweetWhereInput";
 
 export class TweetControllerBase {
   constructor(protected readonly service: TweetService) {}
@@ -239,5 +240,56 @@ export class TweetControllerBase {
       data,
       select: { id: true },
     });
+  }
+
+  @common.Delete("/:id")
+  @swagger.ApiOkResponse({
+    type: Tweet,
+  })
+  @swagger.ApiNotFoundResponse({
+    type: errors.NotFoundException,
+  })
+  @swagger.ApiForbiddenResponse({
+    type: errors.ForbiddenException,
+  })
+  async DeleteTweetById(
+    @common.Body()
+    body: TweetWhereInput
+  ): Promise<Tweet> {
+    return this.service.DeleteTweetById(body);
+  }
+
+  @common.Get("/recent")
+  @swagger.ApiOkResponse({
+    type: Tweet,
+  })
+  @swagger.ApiNotFoundResponse({
+    type: errors.NotFoundException,
+  })
+  @swagger.ApiForbiddenResponse({
+    type: errors.ForbiddenException,
+  })
+  async GetRecentTweets(
+    @common.Body()
+    body: TweetWhereInput
+  ): Promise<Tweet[]> {
+    return this.service.GetRecentTweets(body);
+  }
+
+  @common.Get("/user/:userId")
+  @swagger.ApiOkResponse({
+    type: Tweet,
+  })
+  @swagger.ApiNotFoundResponse({
+    type: errors.NotFoundException,
+  })
+  @swagger.ApiForbiddenResponse({
+    type: errors.ForbiddenException,
+  })
+  async GetTweetsByUser(
+    @common.Body()
+    body: TweetWhereInput
+  ): Promise<Tweet[]> {
+    return this.service.GetTweetsByUser(body);
   }
 }
